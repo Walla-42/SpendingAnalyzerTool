@@ -110,3 +110,12 @@ class Report(Server):
 
     def generate_report(self):
         pass
+
+    def save_report(self):
+        pass
+    
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
