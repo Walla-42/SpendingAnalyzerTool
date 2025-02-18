@@ -31,7 +31,9 @@ class Server():
         self.create_table()
 
     def create_table(self):
+        print("Creating database tables...")
         try:
+            print("Creating expenses table")
             self.c.execute("""CREATE TABLE IF NOT EXISTS expenses (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         item_name TEXT,
@@ -40,6 +42,7 @@ class Server():
                         store TEXT,
                         category TEXT
                 )""")
+            print("Creating income table")
             self.c.execute("""CREATE TABLE IF NOT EXISTS income (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         job TEXT,
@@ -62,16 +65,46 @@ class Server():
 
 
 class UserSettings():
+    """
+    Class for handeling the default settings which can be updated by the user. Includes the ability to create a default settings file if 
+    the default settings file is not present. 
+    """
+
     def __init__(self, settings_file="user_preferences.json"):
         self.settings_file = settings_file
+        self.default_settings = {
+        "income_1" : 0,
+        "income_2" : 0,
+        "income_3" : 0,
+        "income_4" : 0,
+        "reportFrequency" : "monthly",
+        "reportOptions" : ["weekly", "monthly", "quarterly", "bi_annual", "annual"],
+        "availableReports" : ["percentIncomeSpent", "spendingBreakdown", "avgDailyExpense", "highestExpense", "avgCategorialExpense", "spendingTrends"],
+        "chosenReports" : ["percentIncomeSpent", "spendingBreakdown", "avgDailyExpense", "highestExpense", "avgCategorialExpense", "spendingTrends"],
+    }
+        self.load_preferences()
 
-    def load_preferences():
-        pass
+    def save_preferences(self, settings):
+        print("Saving user default settings...")
+        with open(self.settings_file, "w") as settings_file:
+            json.dump(settings, settings_file, indent=4)
+        
 
-    def save_preferences():
-        pass
+    def load_preferences(self):
+        try:
+            print("Loading user default settings...")
+            with open(self.settings_file, "r") as settings:
+                return json.load(settings)
+        except (FileNotFoundError, json.JSONDecodeError):
+            print("Settings file not found. Creating Default Settings file...")
+            self.save_preferences(self.default_settings)
+            return
+
 
 class Report(Server):
+    """
+    Class for handeling reports generated including the statistics produced by the report
+    """
     def __init__(self, database_name='transactions.db', category:str=None, date_range:tuple=None, store:str=None):
         super().__init__(database_name)
 
@@ -115,7 +148,9 @@ class Report(Server):
         pass
     
 def main():
-    pass
+    userSettings = UserSettings()
+    database = Server()
+    print("Success! Program initalized.")
 
 if __name__ == "__main__":
     main()
