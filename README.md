@@ -5,22 +5,26 @@
 </p>
 
 <div align="center">
+    
   <a href="#">
     <img src="https://img.shields.io/badge/Forks-0-blue" alt="Forks">
   </a>
   <a href="#">
     <img src="https://img.shields.io/badge/Stars-0-yellow" alt="Stars">
   </a>
-  <a href="https://github.com/Walla-42/SpendingAnalyzerTool/graphs/commit-activity">
+  <a href="#">
     <img src="https://img.shields.io/github/commit-activity/y/Walla-42/SpendingAnalyzerTool" alt="Commits">
   </a>
+
 </div>
 
+
+
 ## Introduction
-The **Spending Analyzer Tool** is a budgeting program designed to help users track expenses, income, and generate insightful financial reports. Users can customize reports, set income sources, and analyze spending trends over different time frames. The program integrates an SQL database for secure data storage and uses a JSON configuration file to store user preferences.
+The **Spending Analyzer Tool** is a budgeting program designed to help users track expenses, income, and generate insightful financial reports. Users can customize reports, set income sources, and analyze spending trends over different time frames. The program integrates an SQL database for secure data storage and uses a JSON configuration file to store user preferences. This tool is a project to fullfill the CS111 personal project requirement. 
 
 ## Creator
-Developed by [Walla-42](https://github.com/YourGitHubUsername)
+Developed by [Walla-42](https://github.com/Walla-42)
 
 ## To-Do List
 - [ ] Finish report generation class
@@ -40,8 +44,12 @@ Developed by [Walla-42](https://github.com/YourGitHubUsername)
 ## Setup Instructions
 ### Prerequisites
 Ensure you have the following installed:
-- Python 3.x
-- SQLite 
+- Python 3.0 or later
+- Program dependancies:
+    - Matplotlib
+    - Numpy
+    - SqLite3
+    - Pandas
 
 ### Installation
 1. **Clone the Repository:**
