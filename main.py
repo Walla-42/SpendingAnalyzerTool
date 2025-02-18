@@ -146,7 +146,11 @@ class Report(Server):
 
     def save_report(self):
         pass
-    
+
+class GUI_window:
+    def __init__(self):
+        pass
+
 def main():
     userSettings = UserSettings()
     database = Server()
