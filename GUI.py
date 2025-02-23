@@ -1,4 +1,6 @@
 from tkinter import *
+import sqlite3
+from tkinter import ttk
 
 class GUI_app(Tk):
     def __init__(self):
@@ -146,5 +148,38 @@ class GUI_app(Tk):
 
         expense_back = Button(self.current_frame, text="Back", font=("Helvetica", 10), command=self.show_main_menu, width=15, height=1, fg="black", bg="#2c9c2b")
         expense_back.grid(row=7, column=1, columnspan=2, pady=10)
-app = GUI_app()
-app.mainloop()
+
+    def show_report_window(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+
+        self.current_frame = Frame(self, bg="#161313")
+        self.current_frame.pack(fill=BOTH, expand=True)
+
+        self.geometry('700x400')
+        self.title('Spending Analyzer Tool: Report')
+
+        # Create Treeview widget
+        tree = ttk.Treeview(self.current_frame, columns=("ID", "Name", "Date", "Amount", "Store", "Category"), show='headings')
+        tree.heading("ID", text="ID")
+        tree.heading("Name", text="Name")
+        tree.heading("Date", text="Date")
+        tree.heading("Amount", text="Amount")
+        tree.heading("Store", text="Store")
+        tree.heading("Category", text="Category")
+        tree.pack(fill=BOTH, expand=True)
+
+        # Fetch data from the database and insert into Treeview
+        conn = sqlite3.connect('transactions.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM expenses")
+        rows = cursor.fetchall()
+        for row in rows:
+            tree.insert("", END, values=row)
+        conn.close()
+
+        report_back = Button(self.current_frame, text="Back", font=("Helvetica", 10), command=self.show_main_menu, width=15, height=1, fg="black", bg="#2c9c2b")
+        report_back.pack(pady=10)
+
+if __name__ == '__main__':
+    pass

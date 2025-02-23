@@ -2,6 +2,7 @@ import numpy as np
 import datetime as dt
 import json, os
 import sqlite3
+from GUI import *
 
 class Transactions():
     def __init__(self, amount, date=None, category=None):
@@ -155,6 +156,8 @@ def main():
     userSettings = UserSettings()
     database = Server()
     print("Success! Program initalized.")
+    app = GUI_app()
+    app.mainloop()
 
 if __name__ == "__main__":
     main()
