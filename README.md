@@ -1,7 +1,7 @@
 # Spending Analyzer Tool
 
 <p align="center">
-    <img src= "project_images/readme_img.jpeg" width=800 height= 200 alt="spending analyzer image">
+    <img src= "program_files/project_images/readme_img.jpeg" width=800 height= 200 alt="spending analyzer image">
 </p>
 
 <div align="center">
