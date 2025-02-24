@@ -31,14 +31,16 @@ Developed by [Walla-42](https://github.com/Walla-42)
     - [ ] Define each of the statistics
     - [ ] Data needs to be selected and loaded when the user selects the timeframe for reports
     - [ ] Need to import Date time to check when reports are generated based on the user default settings. 
-- [ ] Finish Expenses child class functions
-    - [ ] add expense 
-    - [ ] add income - incorporate default salary into this
-    - [ ] Does it make sense to have all of these in a separate class? Review the setup
 - [ ] Implement a graphical user interface (GUI)
-    - [ ] Create window
+    - [x] Create window
     - [ ] integrate class functions into GUI interface for easy navigation
+        - [ ] Integrate Income Entry
+        - [x] Integrate Expenses Entry
+        - [ ] Integrate Report Generation
+        - [ ] Integrate Settings
+    - [x] Find way to display expenses in GUI
     - [ ] find a way to display reports within GUI and download them once generated
+
 
 
 ## Setup Instructions
@@ -54,7 +56,7 @@ Ensure you have the following installed:
 ### Installation
 1. **Clone the Repository:**
    ```sh
-   git clone https://github.com/YourGitHubUsername/SpendingAnalyzer.git
+   git clone https://github.com/Walla-42/SpendingAnalyzer.git
    cd SpendingAnalyzer
    ```
 
