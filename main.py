@@ -14,6 +14,7 @@ class GUI_app(Tk):
         self.configure(bg="#585454")
         self.current_frame = None
         self.database = Server()
+        self.User_settings = UserSettings()
         self.show_main_menu()
         print("Success! Program initalized.")
         
@@ -196,6 +197,16 @@ class GUI_app(Tk):
         income_back = Button(self.current_frame, text="Back", font=("Helvetica", 10), command=self.show_main_menu, width=15, height=1, fg="black", bg="#2c9c2b")
         income_back.grid(row=7, column=1, columnspan=2, pady=10)
 
+    def add_income(self):
+        income_vars = [self.amount_entry, self.job_entry, self.date_entry, self.category_var]
+        income_data = [var.get() for var in income_vars]
+        print(income_data)
+        self.database.add_to_table("income", [tuple(income_data)])
+        
+        for var in income_vars[0:-1]:
+            var.delete(0, END)
+        self.category_var.set("Food")
+        
 def main():
     app = GUI_app()
     app.mainloop() 
