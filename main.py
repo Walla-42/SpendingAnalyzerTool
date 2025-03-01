@@ -14,17 +14,23 @@ class GUI_app(Tk):
         self.configure(bg="#585454")
         self.current_frame = None
         self.database = Server()
+        self.report_checkbox_vars = {}
         self.User_settings = UserSettings()
         self.show_main_menu()
         print("Success! Program initalized.")
         
 
     def show_main_menu(self):
+        """ Main Window GUI """
+
         if self.current_frame:
             self.current_frame.destroy()
 
         self.current_frame = Frame(self, bg="#161313")
         self.current_frame.pack(fill=BOTH, expand=True)
+
+        self.geometry('700x400')
+        self.title('Spending Analyzer Tool')
 
         # Welcome to Spending Analyzer Tool
         appIntroTitle = Label(self.current_frame, text="Spending Analyzer Tool", font=("Helvetica", 42), fg="white", bg="#161313")
@@ -43,10 +49,11 @@ class GUI_app(Tk):
         reportButton = Button(self.current_frame, text="Generate Report", font=("Helvetica", 10), command=None, width=15, height=1, fg="black", bg="#2c9c2b")
         reportButton.pack(pady=10)
 
-        settingsButton = Button(self.current_frame, text="Settings", font=("Helvetica", 10), command=None, width=15, height=1, fg="black", bg="#2c9c2b")
+        settingsButton = Button(self.current_frame, text="Settings", font=("Helvetica", 10), command=self.show_settings_window, width=15, height=1, fg="black", bg="#2c9c2b")
         settingsButton.pack(pady=10)
 
     def show_expense_window(self):
+        """Function to show expenses option window. This window shows options for the user to enter their expenses. """
         if self.current_frame:
             self.current_frame.destroy()
 
@@ -107,6 +114,7 @@ class GUI_app(Tk):
         expense_show.grid(row=7, column=3, columnspan=2, pady=10)
 
     def show_expense_report_window(self):
+        """Function to show expenses database within its own window.  """
         if self.current_frame:
             self.current_frame.destroy()
 
@@ -137,6 +145,7 @@ class GUI_app(Tk):
         report_back.pack(pady=10)
 
     def add_expense(self):
+        """Adds expenses to the database using the database class methods to connect to the server"""
         expense_vars = [self.name_entry, self.amount_entry, self.date_entry, self.store_entry, self.category_var]
         expense_data = [var.get() for var in expense_vars]
         print(expense_data)
@@ -147,6 +156,7 @@ class GUI_app(Tk):
         self.category_var.set("Food")
 
     def show_income_window(self):
+        """"Function to close previouse window and open new income window. """
         if self.current_frame:
             self.current_frame.destroy()
 
@@ -198,6 +208,7 @@ class GUI_app(Tk):
         income_back.grid(row=7, column=1, columnspan=2, pady=10)
 
     def add_income(self):
+        """Function to add the income data to the income table of the transactions database. """
         income_vars = [self.amount_entry, self.job_entry, self.date_entry, self.category_var]
         income_data = [var.get() for var in income_vars]
         print(income_data)
@@ -206,7 +217,62 @@ class GUI_app(Tk):
         for var in income_vars[0:-1]:
             var.delete(0, END)
         self.category_var.set("Food")
+    
+    def show_settings_window(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+
+        self.current_frame = Frame(self, bg="#161313")
+        self.current_frame.pack(fill=BOTH, expand=True)
+
+        self.geometry('700x400')
+        self.title('Spending Analyzer Tool: User Settings')
         
+        for i in range(2):
+            self.current_frame.columnconfigure(i, weight=1)
+
+        # Loading in settings.json file
+        settings = self.User_settings.load_preferences()
+        report_timeframe_options = settings.get("reportOptions")
+        available_reports = settings.get("availableReports")
+        report_start_reference = settings.get("report_start_date")
+
+        # Page Title
+        settings_title = Label(self.current_frame, text="Settings", font=("Helvatica", 20), fg="White", bg="#161313")
+        settings_title.grid(row=0, column=0, sticky=W)
+
+        # Drop down menu
+        category_label = Label(self.current_frame, text="Report Frequency:", font=("Helvetica", 12), fg="white", bg="#161313")
+        category_label.grid(row=2, column=0, padx=10, pady=5)
+        categories = report_timeframe_options
+        self.category_var = StringVar(self.current_frame)
+        self.category_var.set(settings.get("report_frequency_set"))  
+        category_menu = OptionMenu(self.current_frame, self.category_var, *categories)
+        category_menu.config(fg="black", bg="#2c9c2b")
+        category_menu["menu"].config(fg="black", bg="white")
+        category_menu.grid(row=2, column=1, padx=10, pady=5)
+
+        # Checkbox report
+        Reports_text = Label(self.current_frame, text="Included in generated reports:", font=("Halvatica", 12), fg="white", bg="#161313")
+        Reports_text.grid(row=3, column=0)
+
+        for i, setting in enumerate(available_reports):
+            row = i // 2 + 4
+            col = i % 2
+            self.report_checkbox_vars[setting] = BooleanVar()
+            checkbox_i = Checkbutton(self.current_frame, text=setting, variable=self.report_checkbox_vars[setting], width=20, height=1, bg="#2c9c2b", fg="black")
+            checkbox_i.grid(row=row, column=col, padx=10, pady=10)
+
+        # buttons
+        settings_back = Button(self.current_frame, text="Back", font=("Halvatica", 10), command=self.show_main_menu, width=15, height=1, fg="black", bg="#2c9c2b")
+        settings_back.grid(row=8, column=0, pady=10)
+
+        settings_save = Button(self.current_frame, text="Save", font=("Halvatica", 10), command=lambda:self.User_settings.save_preferences(), width=15, height=1, fg="black", bg="#2c9c2b")
+        settings_save.grid(row=8, column=1, pady=10)
+
+
+   
+
 def main():
     app = GUI_app()
     app.mainloop() 

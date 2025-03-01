@@ -32,15 +32,28 @@ class UserSettings():
     def __init__(self, settings_file="user_preferences.json"):
         self.settings_file = settings_file
         self.default_settings = {
-        "income_1" : 0,
-        "income_2" : 0,
-        "income_3" : 0,
-        "income_4" : 0,
-        "reportFrequency" : "monthly",
-        "reportOptions" : ["weekly", "monthly", "quarterly", "bi_annual", "annual"],
-        "availableReports" : ["percentIncomeSpent", "spendingBreakdown", "avgDailyExpense", "highestExpense", "avgCategorialExpense", "spendingTrends"],
-        "chosenReports" : ["percentIncomeSpent", "spendingBreakdown", "avgDailyExpense", "highestExpense", "avgCategorialExpense", "spendingTrends"],
-    }
+        "income_1": 0,
+        "income_2": 0,
+        "income_3": 0,
+        "income_4": 0,
+        "report_start_date": "01 January",
+        "report_frequency_set": "weekly",
+        "reportOptions": {
+            "weekly" : False,
+            "monthly": False,
+            "quarterly": False,
+            "bi_annual": False,
+            "annual": False
+            },
+        "availableReports": {
+            "Percent Income Spent": False,
+            "Spending Breakdown": False,
+            "Avg Daily Expense": False,
+            "Highest Expense": False,
+            "Avg Categorial Expense": False,
+            "Spending Trends": False
+            }
+        }
         self.load_preferences()
 
     def save_preferences(self, settings):

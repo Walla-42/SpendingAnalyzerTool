@@ -1,3 +1,7 @@
+# Program specific
+transactions.db
+user_preferences.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
