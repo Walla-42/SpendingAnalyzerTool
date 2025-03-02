@@ -14,7 +14,6 @@ class GUI_app(Tk):
         self.configure(bg="#585454")
         self.current_frame = None
         self.database = Server()
-        self.report_checkbox_vars = {}
         self.User_settings = UserSettings()
         self.show_main_menu()
         print("Success! Program initalized.")
@@ -96,7 +95,7 @@ class GUI_app(Tk):
         # Category Menu Options
         category_label = Label(self.current_frame, text="Category:", font=("Helvetica", 12), fg="white", bg="#161313")
         category_label.grid(row=5, column=1, padx=10, pady=5, sticky=E)
-        categories = ["Food", "Transport", "Entertainment", "Utilities", "Other"]
+        categories = ["Housing", "Transportation", "Utilities", "Groceries", "Healthcare/Medical", "Car", "Debt Payment", "Personal Care", "Education", "Household", "Entertainment", "Charity", "Other"]
         self.category_var = StringVar(self.current_frame)
         self.category_var.set(categories[0])  # set the default option
         category_menu = OptionMenu(self.current_frame, self.category_var, *categories)
@@ -219,6 +218,7 @@ class GUI_app(Tk):
         self.category_var.set("Food")
     
     def show_settings_window(self):
+        """Function for managing the user setting window"""
         if self.current_frame:
             self.current_frame.destroy()
 
@@ -235,13 +235,12 @@ class GUI_app(Tk):
         settings = self.User_settings.load_preferences()
         report_timeframe_options = settings.get("reportOptions")
         available_reports = settings.get("availableReports")
-        report_start_reference = settings.get("report_start_date")
 
         # Page Title
         settings_title = Label(self.current_frame, text="Settings", font=("Helvatica", 20), fg="White", bg="#161313")
         settings_title.grid(row=0, column=0, sticky=W)
 
-        # Drop down menu
+        # Drop down menu for report frequency
         category_label = Label(self.current_frame, text="Report Frequency:", font=("Helvetica", 12), fg="white", bg="#161313")
         category_label.grid(row=2, column=0, padx=10, pady=5)
         categories = report_timeframe_options
@@ -252,22 +251,31 @@ class GUI_app(Tk):
         category_menu["menu"].config(fg="black", bg="white")
         category_menu.grid(row=2, column=1, padx=10, pady=5)
 
-        # Checkbox report
+        # reports included settings start
         Reports_text = Label(self.current_frame, text="Included in generated reports:", font=("Halvatica", 12), fg="white", bg="#161313")
         Reports_text.grid(row=3, column=0)
 
+        self.report_checkbox_vars = {}
         for i, setting in enumerate(available_reports):
             row = i // 2 + 4
             col = i % 2
-            self.report_checkbox_vars[setting] = BooleanVar()
+            self.report_checkbox_vars[setting] = BooleanVar(value=available_reports[setting])
             checkbox_i = Checkbutton(self.current_frame, text=setting, variable=self.report_checkbox_vars[setting], width=20, height=1, bg="#2c9c2b", fg="black")
             checkbox_i.grid(row=row, column=col, padx=10, pady=10)
 
-        # buttons
+        def save_settings():
+            """Fuction to gather the user preference data and load it into the settings.json file created by the user_settings class"""
+
+            settings["report_frequency_set"] = self.category_var.get()
+            for setting in self.report_checkbox_vars:
+                settings["availableReports"][setting] = self.report_checkbox_vars[setting].get()
+            self.User_settings.save_preferences(settings)
+
+        # page buttons
         settings_back = Button(self.current_frame, text="Back", font=("Halvatica", 10), command=self.show_main_menu, width=15, height=1, fg="black", bg="#2c9c2b")
         settings_back.grid(row=8, column=0, pady=10)
 
-        settings_save = Button(self.current_frame, text="Save", font=("Halvatica", 10), command=lambda:self.User_settings.save_preferences(), width=15, height=1, fg="black", bg="#2c9c2b")
+        settings_save = Button(self.current_frame, text="Save", font=("Halvatica", 10), command=save_settings, width=15, height=1, fg="black", bg="#2c9c2b")
         settings_save.grid(row=8, column=1, pady=10)
 
 
