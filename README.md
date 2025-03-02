@@ -34,10 +34,10 @@ Developed by [Walla-42](https://github.com/Walla-42)
 - [ ] Implement a graphical user interface (GUI)
     - [x] Create window
     - [ ] integrate class functions into GUI interface for easy navigation
-        - [ ] Integrate Income Entry
+        - [x] Integrate Income Entry
         - [x] Integrate Expenses Entry
         - [ ] Integrate Report Generation
-        - [ ] Integrate Settings
+        - [x] Integrate Settings
     - [x] Find way to display expenses in GUI
     - [ ] find a way to display reports within GUI and download them once generated
 
